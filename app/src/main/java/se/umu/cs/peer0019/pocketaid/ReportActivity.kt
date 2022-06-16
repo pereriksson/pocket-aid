@@ -15,13 +15,12 @@ class ReportActivity : AppCompatActivity() {
 
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Pie)
-            .title("Utgifter mars 2022")
             .titleStyle(
                 AAStyle()
                     .color("#ffffff")
                     .fontSize(20)
             )
-            .backgroundColor("#4b2b7f")
+            .backgroundColor("#2C2F31")
             .dataLabelsEnabled(true)
             .series(arrayOf(
                 AASeriesElement()
