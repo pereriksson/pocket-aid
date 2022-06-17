@@ -4,13 +4,13 @@
     <item
         android:icon="@drawable/ic_house"
         android:title="Start"
-        android:id="@+id/expensesActivity"/>
+        android:id="@+id/expensesFragment"/>
     <item
-        android:id="@+id/reportActivity"
+        android:id="@+id/reportsFragment"
         android:icon="@drawable/ic_chart"
         android:title="Rapport" />
     <item
-        android:id="@+id/settingsActivity"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_gear"
         android:title="Inställningar" />
 </menu>

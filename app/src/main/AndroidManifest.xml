@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PocketAid"
         tools:targetApi="31">
         <activity
-            android:name=".ExpensesActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PocketAid.NoActionBar">
             <intent-filter>
@@ -26,13 +26,7 @@
         <activity
             android:name=".ReportActivity"
             android:exported="true"
-            android:theme="@style/Theme.PocketAid.NoActionBar">
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="true"
-            android:theme="@style/Theme.PocketAid.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.PocketAid.NoActionBar" />
     </application>
 
 </manifest>
