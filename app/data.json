@@ -1,0 +1,16 @@
+{
+  "categories": [
+    {
+      "id": "2b9bcd2e-7581-4cbb-9a66-6897c21e0b5c",
+      "name": "Mat"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "3114affc-1d18-44a5-85ff-3f92022ed06d",
+      "date": "2022-01-01T00:00:00.000Z",
+      "amount": 100,
+      "categoryId": "2b9bcd2e-7581-4cbb-9a66-6897c21e0b5c"
+    }
+  ]
+}

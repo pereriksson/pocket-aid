@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/expensesActivity">
+
+    <activity
+        android:id="@+id/expensesActivity"
+        android:name="se.umu.cs.peer0019.pocketaid.ExpensesActivity"
+        android:label="activity_expenses"
+        tools:layout="@layout/activity_expenses" />
+    <activity
+        android:id="@+id/reportActivity"
+        android:name="se.umu.cs.peer0019.pocketaid.ReportActivity"
+        android:label="activity_report"
+        tools:layout="@layout/activity_report" />
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="se.umu.cs.peer0019.pocketaid.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings" />
+</navigation>
