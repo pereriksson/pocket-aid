@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
+import se.umu.cs.peer0019.pocketaid.db.Db
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

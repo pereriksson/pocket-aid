@@ -2,13 +2,11 @@ package se.umu.cs.peer0019.pocketaid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import se.umu.cs.peer0019.pocketaid.db.Db
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,5 +26,23 @@ class MainActivity : AppCompatActivity() {
         )
         navView.setupWithNavController(navController)
 
+        // TODO: Feature to generate demo data
+        // todo: skapa upp en category/expense klass
+
+        // Get categories from backend
+        val db = Db(this)
+        db.addCategory("Mat")
+        db.addCategory("Elektronik")
+        db.addCategory("Resa")
+        db.addCategory("Bio")
+        db.addExpense("Espresso House", "Fika med Anna", 1, "2022-01-01", 74)
+        db.addExpense("Espresso House", "Fika med Peter", 1, "2022-01-02", 55)
+        db.addExpense("Espresso House", "Fika med Frida", 1, "2022-01-03", 149)
+        db.addExpense("Espresso House", "Fika med Erik", 1, "2022-01-04", 65)
+        db.addExpense("Media Markt", "PHILIPS 55\" LED 4K UHD Smart TV", 2, "2022-01-04", 4490)
+        val categories = db.getCategories()
+        println(categories.size)
+        val expenses = db.getExpenses()
+        println(expenses.size)
     }
 }
