@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         )
         navView.setupWithNavController(navController)
 
+
+
+        val db = Db(this)
+        println("i databasen: ${db.getExpenses().size} expenses, ${db.getCategories().size} categories")
+
         // todo: Expense ska kanske vara en data-klass
         // todo: ta bort alla copyright google kommentarsblock längst up i alla filer
 

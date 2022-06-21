@@ -10,9 +10,15 @@ import se.umu.cs.peer0019.pocketaid.models.Expense
 import kotlin.math.exp
 
 class ExpensesListAdapter : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>() {
-    private var expenses: List<Expense> = mutableListOf(Expense(
-        1, "place", "desc", 1, "2022-01-02", 100
-    ))
+    private var expenses: List<Expense> = mutableListOf(
+        Expense(1, "place", "desc", 1, "2022-01-02", 100),
+        Expense(1, "place", "desc", 1, "2022-01-02", 100),
+        Expense(1, "place", "desc", 1, "2022-01-02", 100),
+        Expense(1, "place", "desc", 1, "2022-01-02", 100),
+        Expense(1, "place", "desc", 1, "2022-01-02", 100),
+        Expense(1, "place", "desc", 1, "2022-01-02", 100),
+        Expense(1, "place", "desc", 1, "2022-01-02", 100)
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)

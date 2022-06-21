@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import se.umu.cs.peer0019.pocketaid.R
+import se.umu.cs.peer0019.pocketaid.db.Db
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,8 +36,35 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Feature to create demo data
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+
+        val createDemoDataBtn = view.findViewById<Button>(R.id.create_demo_data)
+        createDemoDataBtn.setOnClickListener {
+            this.context?.let {
+                val db = Db(it)
+                db.deleteAllCategories()
+                db.deleteAllExpenses()
+                db.addCategory("Film")
+                db.addCategory("Mat")
+                db.addCategory("Elektronik")
+                db.addCategory("Resa")
+
+                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
+                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
+                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
+                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
+                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
+                println("created demo data")
+            }
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     companion object {

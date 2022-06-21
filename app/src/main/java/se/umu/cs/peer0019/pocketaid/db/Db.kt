@@ -112,4 +112,16 @@ class Db (
         db.close()
         return expenseId
     }
+
+    fun deleteAllExpenses() {
+        val dbHelper = ExpensesDbHelper(context)
+        val db = dbHelper.writableDatabase
+        db?.delete(ExpenseContract.ExpenseEntry.TABLE_NAME, null, null)
+    }
+
+    fun deleteAllCategories() {
+        val dbHelper = ExpensesDbHelper(context)
+        val db = dbHelper.writableDatabase
+        db?.delete(CategoryContract.CategoryEntry.TABLE_NAME, null, null)
+    }
 }

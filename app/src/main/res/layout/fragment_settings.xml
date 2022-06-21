@@ -26,6 +26,7 @@
                 android:layout_height="match_parent"
                 android:text="Click the button below to load some demo data." />
             <Button
+                android:id="@+id/create_demo_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Create demo data"/>

@@ -10,6 +10,7 @@ import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
 import se.umu.cs.peer0019.pocketaid.R
 import se.umu.cs.peer0019.pocketaid.db.Db
+import se.umu.cs.peer0019.pocketaid.models.Category
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,6 +47,17 @@ class ReportsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val a = Category(1, "name")
+
+        val db = Db(view.context)
+        val categories = db.getCategories()
+        val statistics = Array<Any>(categories.size){0}
+
+        categories.forEachIndexed { index, category ->
+            statistics[index] = arrayOf(category.name, 10)
+        }
+
+        // Todo: view.context är alltid ett objekt i denna metod, använda denna istf onCreateView?
         // TODO: Lägg lite tid på att hitta ett snyggt färgschema
         // TODO: Knapp på första sidan "Lägg in utgift"
         // TODO: Inställningar (lägga till kategorier, beloppspärr etc)
@@ -80,13 +92,7 @@ class ReportsFragment : Fragment() {
             )
             .series(arrayOf(
                 AASeriesElement()
-                    .data(arrayOf(
-                        arrayOf("Bio", 10),
-                        arrayOf("Elektronik", 20),
-                        arrayOf("Mat", 80),
-                        arrayOf("Film", 30),
-                        arrayOf("Resa", 40)
-                    ))
+                    .data(statistics)
                     .dataLabels(
                         AADataLabels()
                             .enabled(false)
