@@ -6,17 +6,17 @@
     app:startDestination="@id/expensesFragment">
     <fragment
         android:id="@+id/expensesFragment"
-        android:name="se.umu.cs.peer0019.pocketaid.ExpensesFragment"
+        android:name="se.umu.cs.peer0019.pocketaid.fragments.ExpensesFragment"
         android:label="fragment_expenses"
         tools:layout="@layout/fragment_expenses" />
     <fragment
         android:id="@+id/reportsFragment"
-        android:name="se.umu.cs.peer0019.pocketaid.ReportsFragment"
+        android:name="se.umu.cs.peer0019.pocketaid.fragments.ReportsFragment"
         android:label="fragment_reports"
         tools:layout="@layout/fragment_reports" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="se.umu.cs.peer0019.pocketaid.SettingsFragment"
+        android:name="se.umu.cs.peer0019.pocketaid.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

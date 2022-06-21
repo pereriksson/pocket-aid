@@ -3,12 +3,13 @@ package se.umu.cs.peer0019.pocketaid.db
 import android.content.ContentValues
 import android.content.Context
 import android.provider.BaseColumns
-import se.umu.cs.peer0019.pocketaid.model.Category
-import se.umu.cs.peer0019.pocketaid.model.Expense
+import se.umu.cs.peer0019.pocketaid.models.Category
+import se.umu.cs.peer0019.pocketaid.models.Expense
 
 class Db (
     private val context: Context
     ) {
+
     fun getExpenses(): List<Expense> {
         val dbHelper = ExpensesDbHelper(context)
         val db = dbHelper.readableDatabase

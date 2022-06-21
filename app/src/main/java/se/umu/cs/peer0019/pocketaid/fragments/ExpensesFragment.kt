@@ -1,10 +1,16 @@
-package se.umu.cs.peer0019.pocketaid
+package se.umu.cs.peer0019.pocketaid.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import se.umu.cs.peer0019.pocketaid.ExpensesListAdapter
+import se.umu.cs.peer0019.pocketaid.R
+import se.umu.cs.peer0019.pocketaid.db.Db
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +39,35 @@ class ExpensesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        /*val transaction = childFragmentManager.beginTransaction()
+        val expenseGroup = ExpenseGroupFragment()
+        transaction.add(R.id.fragment_scroll_view, expenseGroup)
+        val expense = ExpenseFragment()
+        transaction.add(R.id.fragment_scroll_view, expense)
+        transaction.commit()*/
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_expenses, container, false)
+        // Inflate the layout for this fragment
+        //val view: View = inflater.inflate(se.umu.cs.peer0019.pocketaid.R.layout.fragment_expenses, container, false)
+
+
+
+        // todo: bör jag hömta data här?
+//        val recyclerView = view?.findViewById<RecyclerView>(se.umu.cs.peer0019.pocketaid.R.id.expenses_recyclerview)
+//        val adapter = ExpensesListAdapter()
+//        context?.let {
+//            adapter.expenses = Db(it).getExpenses()
+//        }
+//
+//        recyclerView?.adapter = adapter
+//        recyclerView?.layoutManager = LinearLayoutManager(context)
+
+        val view = inflater.inflate(R.layout.fragment_expenses, container, false)
+        val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
+        a.layoutManager = LinearLayoutManager(activity)
+        a.adapter = ExpensesListAdapter()
+        // Inflate the layout for this fragment
+        return view
     }
 
     companion object {

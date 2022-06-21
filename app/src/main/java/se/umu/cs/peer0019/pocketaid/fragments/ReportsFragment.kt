@@ -1,4 +1,4 @@
-package se.umu.cs.peer0019.pocketaid
+package se.umu.cs.peer0019.pocketaid.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
+import se.umu.cs.peer0019.pocketaid.R
 import se.umu.cs.peer0019.pocketaid.db.Db
 
 // TODO: Rename parameter arguments, choose names that match
