@@ -5,8 +5,9 @@ import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import se.umu.cs.peer0019.pocketaid.db.Db
+import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +27,18 @@ class MainActivity : AppCompatActivity() {
         )
         navView.setupWithNavController(navController)
 
+        // TODO: DO NOT fetch on main thread
+        val db = Room.databaseBuilder(
+            this,
+            AppDatabase::class.java, "expenses"
+        )
+            .allowMainThreadQueries()
+            .build()
+        val ed = db.expenseDao()
+        println("i databasen: ${ed.getExpenses().size} expenses, ${ed.getCategories().size} categories")
 
-
-        val db = Db(this)
-        println("i databasen: ${db.getExpenses().size} expenses, ${db.getCategories().size} categories")
-
+        // todo: Testa bakåt-knappen ordentligt!
+        // todo: Testa recover state ordentligt (se inlupp 1)
         // todo: Expense ska kanske vara en data-klass
         // todo: ta bort alla copyright google kommentarsblock längst up i alla filer
 
@@ -43,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         // Testa på många API-versioner/enheter
         // todo: använd ej bundle writeBoolean
         // todo: metoder ska vara relativt små
+        // todo: dark theme (google krav)
 
         // Get categories from backend
 //        val db = Db(this)

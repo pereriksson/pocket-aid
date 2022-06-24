@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import se.umu.cs.peer0019.pocketaid.models.Expense
 import kotlin.math.exp
 
+/**
+ * The Adapter creates ViewHolder objects as needed
+ */
 class ExpensesListAdapter : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>() {
     private var expenses: List<Expense> = mutableListOf(
         Expense(1, "place", "desc", 1, "2022-01-02", 100),
@@ -30,7 +33,6 @@ class ExpensesListAdapter : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>
      * Populates data into the individual card view.
      */
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        println("onBindViewHolder")
         viewHolder.placeItemView.text = expenses[i].place
         viewHolder.dateItemView.text = expenses[i].date
         viewHolder.categoryNameItemView.text = expenses[i].categoryId.toString() // todo

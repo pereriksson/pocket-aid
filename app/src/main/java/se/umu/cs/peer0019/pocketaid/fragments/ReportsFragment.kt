@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.room.Room
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
 import se.umu.cs.peer0019.pocketaid.R
-import se.umu.cs.peer0019.pocketaid.db.Db
+import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 import se.umu.cs.peer0019.pocketaid.models.Category
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,15 +47,75 @@ class ReportsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val a = Category(1, "name")
 
-        val db = Db(view.context)
-        val categories = db.getCategories()
-        val statistics = Array<Any>(categories.size){0}
+        // TODO: DO NOT fetch on main thread!
+        this.context?.let { context ->
+            val db = Room.databaseBuilder(
+                context,
+                AppDatabase::class.java, "expenses"
+            ).allowMainThreadQueries().build()
 
-        categories.forEachIndexed { index, category ->
-            statistics[index] = arrayOf(category.name, 10)
+            val ed = db.expenseDao()
+            val categories = ed.getCategories()
+
+            var statistics = Array<Any>(categories.size){}
+
+            categories.forEachIndexed { index, category ->
+                val expenses = ed.getExpenses().filter {
+                    it.categoryId == category.id
+                }
+                val total = expenses.fold(0) { sum, expense -> sum + expense.amount }
+                statistics[index] = arrayOf(category.name, total)
+            }
+
+            val plotOptions = AAPlotOptions()
+                .series(
+                    AASeries()
+                        .borderColor("transparent")
+                )
+            // Gör till en view?
+            val aaChartModel : AAChartModel = AAChartModel()
+                .chartType(AAChartType.Pie)
+                .backgroundColor("transparent")
+                .dataLabelsEnabled(true)
+                .colorsTheme(
+                    arrayOf(
+                        // TODO: Create strings for these
+                        // TODO: Make sure we have enough colors as categories are defined by the user
+                        "#7EFEBF",
+                        "#0ACAF3",
+                        "#FF107C",
+                        "#FFBF68",
+                        "#ED71FE"
+                    )
+                )
+                .series(arrayOf(
+                    AASeriesElement()
+                        .data(statistics)
+                        .dataLabels(
+                            AADataLabels()
+                                .enabled(false)
+                        )
+                        .name("Utgifter")
+                ))
+
+            val aaChartOptions = aaChartModel
+                .aa_toAAOptions()
+                .legend(
+                    AALegend()
+                        .itemStyle(
+                            AAItemStyle()
+                                .color("#ffffff")
+                                .fontSize(18.toFloat())
+                                .fontWeight("400")
+                        )
+                        .itemMarginTop(16.toFloat())
+                )
+            //.plotOptions(plotOptions)   //legenden försvinner
+            val aaChartView = view.findViewById<AAChartView>(R.id.aa_chart_view)
+            aaChartView.aa_drawChartWithChartOptions(aaChartOptions)
         }
+
 
         // Todo: view.context är alltid ett objekt i denna metod, använda denna istf onCreateView?
         // TODO: Lägg lite tid på att hitta ett snyggt färgschema
@@ -69,52 +129,7 @@ class ReportsFragment : Fragment() {
         // TODO: AddExpenseActivity
         // TODO: SettingsActivity
         // TODO: ReportActivity
-        val plotOptions = AAPlotOptions()
-            .series(
-                AASeries()
-                .borderColor("transparent")
-            )
-        // Gör till en view?
-        val aaChartModel : AAChartModel = AAChartModel()
-            .chartType(AAChartType.Pie)
-            .backgroundColor("transparent")
-            .dataLabelsEnabled(true)
-            .colorsTheme(
-                arrayOf(
-                    // TODO: Create strings for these
-                    // TODO: Make sure we have enough colors as categories are defined by the user
-                    "#7EFEBF",
-                    "#0ACAF3",
-                    "#FF107C",
-                    "#FFBF68",
-                    "#ED71FE"
-                )
-            )
-            .series(arrayOf(
-                AASeriesElement()
-                    .data(statistics)
-                    .dataLabels(
-                        AADataLabels()
-                            .enabled(false)
-                    )
-                    .name("Utgifter")
-            ))
 
-        val aaChartOptions = aaChartModel
-            .aa_toAAOptions()
-            .legend(
-                AALegend()
-                    .itemStyle(
-                        AAItemStyle()
-                            .color("#ffffff")
-                            .fontSize(18.toFloat())
-                            .fontWeight("400")
-                    )
-                    .itemMarginTop(16.toFloat())
-            )
-        //.plotOptions(plotOptions)   //legenden försvinner
-        val aaChartView = view.findViewById<AAChartView>(R.id.aa_chart_view)
-        aaChartView.aa_drawChartWithChartOptions(aaChartOptions)
     }
 
     companion object {

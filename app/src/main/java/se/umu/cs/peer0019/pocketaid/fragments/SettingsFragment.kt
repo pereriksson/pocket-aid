@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.room.Room
 import se.umu.cs.peer0019.pocketaid.R
-import se.umu.cs.peer0019.pocketaid.db.Db
+import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,21 +42,25 @@ class SettingsFragment : Fragment() {
 
         val createDemoDataBtn = view.findViewById<Button>(R.id.create_demo_data)
         createDemoDataBtn.setOnClickListener {
-            this.context?.let {
-                val db = Db(it)
-                db.deleteAllCategories()
-                db.deleteAllExpenses()
-                db.addCategory("Film")
-                db.addCategory("Mat")
-                db.addCategory("Elektronik")
-                db.addCategory("Resa")
-
-                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
-                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
-                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
-                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
-                db.addExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
-                println("created demo data")
+            this.context?.let { context ->
+                val db = Room.databaseBuilder(
+                    context,
+                    AppDatabase::class.java, "expenses"
+                )
+                    .allowMainThreadQueries() // TODO: DO NOT fetch on main thread
+                    .build()
+                val ed = db.expenseDao()
+                ed.deleteExpenses()
+                ed.deleteCategories()
+                ed.insertCategory("Hyra")
+                ed.insertCategory("Mat")
+                ed.insertCategory("Elektronik")
+                ed.insertCategory("Resa")
+                ed.insertExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
+                ed.insertExpense("Espresso House", "Fika", 2, "2022-01-02", 200)
+                ed.insertExpense("Espresso House", "Fika", 3, "2022-01-02", 300)
+                ed.insertExpense("Espresso House", "Fika", 4, "2022-01-02", 400)
+                ed.insertExpense("Espresso House", "Fika", 4, "2022-01-02", 500)
             }
         }
         // Inflate the layout for this fragment

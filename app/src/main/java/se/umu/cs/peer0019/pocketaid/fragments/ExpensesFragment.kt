@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import se.umu.cs.peer0019.pocketaid.ExpensesListAdapter
 import se.umu.cs.peer0019.pocketaid.R
-import se.umu.cs.peer0019.pocketaid.db.Db
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,35 +38,20 @@ class ExpensesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*val transaction = childFragmentManager.beginTransaction()
-        val expenseGroup = ExpenseGroupFragment()
-        transaction.add(R.id.fragment_scroll_view, expenseGroup)
-        val expense = ExpenseFragment()
-        transaction.add(R.id.fragment_scroll_view, expense)
-        transaction.commit()*/
-
-        // Inflate the layout for this fragment
-        // Inflate the layout for this fragment
-        //val view: View = inflater.inflate(se.umu.cs.peer0019.pocketaid.R.layout.fragment_expenses, container, false)
-
-
-
-        // todo: bör jag hömta data här?
-//        val recyclerView = view?.findViewById<RecyclerView>(se.umu.cs.peer0019.pocketaid.R.id.expenses_recyclerview)
-//        val adapter = ExpensesListAdapter()
-//        context?.let {
-//            adapter.expenses = Db(it).getExpenses()
-//        }
-//
-//        recyclerView?.adapter = adapter
-//        recyclerView?.layoutManager = LinearLayoutManager(context)
-
+        // todo: hämta data
         val view = inflater.inflate(R.layout.fragment_expenses, container, false)
         val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
         a.layoutManager = LinearLayoutManager(activity)
         a.adapter = ExpensesListAdapter()
-        // Inflate the layout for this fragment
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
+        a.layoutManager = LinearLayoutManager(activity)
+        a.adapter = ExpensesListAdapter()
     }
 
     companion object {

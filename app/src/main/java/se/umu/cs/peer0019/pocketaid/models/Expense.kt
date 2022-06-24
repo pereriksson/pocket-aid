@@ -1,19 +1,21 @@
 package se.umu.cs.peer0019.pocketaid.models
 
-// todo: make a data class?
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class Expense(
-    id: Int,
-    place: String,
-    description: String,
-    categoryId: Int,
-    date: String,
-    amount: Int
-) {
-    val id: Int = id
-    val place: String = place
-    val description: String = description
-    val categoryId: Int = categoryId
-    val date: String = date
-    val amount: Int = amount
-}
+@Entity(tableName = "expenses")
+data class Expense(
+    @PrimaryKey
+    val id: Int,
+    @ColumnInfo(name = "place")
+    val place: String,
+    @ColumnInfo(name = "description")
+    val description: String,
+    @ColumnInfo(name = "categoryId")
+    val categoryId: Int,
+    @ColumnInfo(name = "date")
+    val date: String,
+    @ColumnInfo(name = "amount")
+    val amount: Int
+)
