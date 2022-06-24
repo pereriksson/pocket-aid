@@ -1,5 +1,6 @@
 package se.umu.cs.peer0019.pocketaid
 
+import android.icu.number.NumberFormatter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,21 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import se.umu.cs.peer0019.pocketaid.models.Expense
+import java.text.DecimalFormat
+import java.util.*
 import kotlin.math.exp
 
 /**
  * The Adapter creates ViewHolder objects as needed
  */
-class ExpensesListAdapter : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>() {
-    private var expenses: List<Expense> = mutableListOf(
-        Expense(1, "place", "desc", 1, "2022-01-02", 100),
-        Expense(1, "place", "desc", 1, "2022-01-02", 100),
-        Expense(1, "place", "desc", 1, "2022-01-02", 100),
-        Expense(1, "place", "desc", 1, "2022-01-02", 100),
-        Expense(1, "place", "desc", 1, "2022-01-02", 100),
-        Expense(1, "place", "desc", 1, "2022-01-02", 100),
-        Expense(1, "place", "desc", 1, "2022-01-02", 100)
-    )
+class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -35,8 +29,9 @@ class ExpensesListAdapter : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.placeItemView.text = expenses[i].place
         viewHolder.dateItemView.text = expenses[i].date
-        viewHolder.categoryNameItemView.text = expenses[i].categoryId.toString() // todo
-        viewHolder.amountItemView.text = expenses[i].amount.toString()
+        // todo
+        viewHolder.categoryNameItemView.text = expenses[i].categoryId.toString()
+        viewHolder.amountItemView.text = "${expenses[i].amount} kr"
 
     }
 

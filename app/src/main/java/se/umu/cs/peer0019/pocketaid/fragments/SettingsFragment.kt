@@ -42,6 +42,7 @@ class SettingsFragment : Fragment() {
 
         val createDemoDataBtn = view.findViewById<Button>(R.id.create_demo_data)
         createDemoDataBtn.setOnClickListener {
+            // todo: Figure out how to do with context in fragments
             this.context?.let { context ->
                 val db = Room.databaseBuilder(
                     context,
@@ -52,15 +53,23 @@ class SettingsFragment : Fragment() {
                 val ed = db.expenseDao()
                 ed.deleteExpenses()
                 ed.deleteCategories()
-                ed.insertCategory("Hyra")
+                ed.insertCategory("Bostad")
+                ed.insertExpense("Amortering", "Bostadslån", 1, "2022-01-02", 4950)
+                ed.insertExpense("Ränta", "Bostadslån", 1, "2022-01-02", 2775)
+                ed.insertExpense("Månadsavgift", "BRF", 1, "2022-01-02", 2973)
+
                 ed.insertCategory("Mat")
+                ed.insertExpense("ICA MAXI Stormarknad", "Mat", 2, "2022-01-02", 589)
+                ed.insertExpense("Espresso House", "Fika med Erik", 2, "2022-01-02", 159)
+                ed.insertExpense("Espresso House", "Fika med Anna", 2, "2022-01-02", 49)
+                ed.insertExpense("Pressbyrån", "Frukost", 2, "2022-01-02", 29)
+                ed.insertExpense("Ciao Ciao", "Middag", 2, "2022-01-02", 439)
+
                 ed.insertCategory("Elektronik")
+                ed.insertExpense("Media Markt", "SONOS One Gen2 Vit", 3, "2022-01-02", 2549)
+
                 ed.insertCategory("Resa")
-                ed.insertExpense("Espresso House", "Fika", 1, "2022-01-02", 100)
-                ed.insertExpense("Espresso House", "Fika", 2, "2022-01-02", 200)
-                ed.insertExpense("Espresso House", "Fika", 3, "2022-01-02", 300)
-                ed.insertExpense("Espresso House", "Fika", 4, "2022-01-02", 400)
-                ed.insertExpense("Espresso House", "Fika", 4, "2022-01-02", 500)
+                ed.insertExpense("Norwegian", "Stockholm-Berlin", 4, "2022-01-02", 5691)
             }
         }
         // Inflate the layout for this fragment

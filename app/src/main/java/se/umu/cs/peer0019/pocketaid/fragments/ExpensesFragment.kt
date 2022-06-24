@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import se.umu.cs.peer0019.pocketaid.ExpensesListAdapter
 import se.umu.cs.peer0019.pocketaid.R
+import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,20 +40,27 @@ class ExpensesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // todo: hämta data
-        val view = inflater.inflate(R.layout.fragment_expenses, container, false)
-        val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
-        a.layoutManager = LinearLayoutManager(activity)
-        a.adapter = ExpensesListAdapter()
-        return view
+        return inflater.inflate(R.layout.fragment_expenses, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
-        a.layoutManager = LinearLayoutManager(activity)
-        a.adapter = ExpensesListAdapter()
+        // TODO: Ensure context
+        this.context?.let {
+            // Fetch data
+            val db = Room.databaseBuilder(
+                it,
+                AppDatabase::class.java, "expenses"
+            )
+                .allowMainThreadQueries()
+                .build()
+            val ed = db.expenseDao()
+            val expenses = ed.getExpenses()
+            val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
+            a.layoutManager = LinearLayoutManager(activity)
+            a.adapter = ExpensesListAdapter(expenses)
+        }
     }
 
     companion object {
