@@ -51,5 +51,6 @@ class MainActivity : AppCompatActivity() {
         // todo: dark theme (google krav)
         // todo: ska jag hämta data i fragment eller i activity?
         // TODO: Testa att stänga appen i varje vy+fragment
+        // todo ViewModel?
     }
 }

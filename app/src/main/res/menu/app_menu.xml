@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:icon="@drawable/ic_house"
         android:title="Start"
         android:id="@+id/expensesFragment"/>
+    <item
+        android:icon="@drawable/ic_add"
+        android:title="Lägg till"
+        android:id="@+id/addExpenseFragment"/>
     <item
         android:id="@+id/reportsFragment"
         android:icon="@drawable/ic_chart"

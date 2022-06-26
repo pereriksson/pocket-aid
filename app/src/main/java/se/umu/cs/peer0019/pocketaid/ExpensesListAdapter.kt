@@ -32,7 +32,7 @@ class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<Ex
         // todo
         viewHolder.categoryNameItemView.text = expenses[i].categoryId.toString()
         viewHolder.amountItemView.text = "${expenses[i].amount} kr"
-
+        viewHolder.descriptionItemView.text = expenses[i].description
     }
 
     override fun getItemCount(): Int {
@@ -50,7 +50,7 @@ class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<Ex
         var dateItemView: TextView
         var categoryNameItemView: TextView
         var amountItemView: TextView
-
+        var descriptionItemView: TextView
 
         var data: Expense? = null
 
@@ -59,7 +59,7 @@ class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<Ex
             dateItemView = itemView.findViewById(R.id.expenses_list_item_date)
             categoryNameItemView = itemView.findViewById(R.id.expenses_list_item_category_name)
             amountItemView = itemView.findViewById(R.id.expenses_list_item_amount)
-
+            descriptionItemView = itemView.findViewById(R.id.expenses_list_item_description)
         }
 
         fun bind(item: Expense?) {
@@ -70,6 +70,7 @@ class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<Ex
             // todo
             categoryNameItemView.text = item?.categoryId.toString()
             amountItemView.text = item?.amount.toString()
+            descriptionItemView.text = item?.description
         }
 
         companion object {

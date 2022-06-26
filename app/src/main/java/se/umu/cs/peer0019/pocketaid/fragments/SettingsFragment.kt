@@ -54,9 +54,9 @@ class SettingsFragment : Fragment() {
                 ed.deleteExpenses()
                 ed.deleteCategories()
                 ed.insertCategory("Bostad")
-                ed.insertExpense("Amortering", "Bostadslån", 1, "2022-01-02", 4950)
-                ed.insertExpense("Ränta", "Bostadslån", 1, "2022-01-02", 2775)
-                ed.insertExpense("Månadsavgift", "BRF", 1, "2022-01-02", 2973)
+                ed.insertExpense("Skandia", "Ränta", 1, "2022-01-02", 4950)
+                ed.insertExpense("Skandia", "Amortering", 1, "2022-01-02", 2775)
+                ed.insertExpense("BRF Lindhagens Backe", "Månadsavgift", 1, "2022-01-02", 2973)
 
                 ed.insertCategory("Mat")
                 ed.insertExpense("ICA MAXI Stormarknad", "Mat", 2, "2022-01-02", 589)

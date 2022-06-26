@@ -10,6 +10,11 @@
         android:label="fragment_expenses"
         tools:layout="@layout/fragment_expenses" />
     <fragment
+        android:id="@+id/addExpenseFragment"
+        android:name="se.umu.cs.peer0019.pocketaid.fragments.AddExpenseFragment"
+        android:label="fragment_add_fragment"
+        tools:layout="@layout/fragment_add_expense"/>
+    <fragment
         android:id="@+id/reportsFragment"
         android:name="se.umu.cs.peer0019.pocketaid.fragments.ReportsFragment"
         android:label="fragment_reports"
