@@ -1,5 +1,7 @@
 package se.umu.cs.peer0019.pocketaid.fragments
 
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import se.umu.cs.peer0019.pocketaid.MainActivity
 import se.umu.cs.peer0019.pocketaid.R
 import java.io.File
 
@@ -27,6 +31,25 @@ class AddExpenseFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
+    //Vi använder det färdiga kontraktet för att ta bilder
+    val launcher=registerForActivityResult<Uri,Boolean>(ActivityResultContracts.TakePicture()) {
+        if(it) {
+            //Bilden sparad till den plats vi angav i intentetIntent. Bilden kommer bytas ut
+            //Då aktiviteten blir synlig
+            view?.let { view ->
+                val expenseImage = view.findViewById(R.id.expenseImage) as ImageView
+                activity?.let { activity ->
+                    val file = File(activity.filesDir, "mypic.jpg")
+                    // todo: expenseImage.setImageBitmap()
+                    // todo: exif orientation adjustment
+                    val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                    expenseImage.setImageBitmap(bitmap)
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,28 +62,25 @@ class AddExpenseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*view?.let {
-            val takeBtn = it.findViewById<Button>(R.id.take_picture)
-            takeBtn.setOnClickListener {
-                takePicture()
-            }
-        }*/
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_expense, container, false)
     }
 
-    val launcher=registerForActivityResult<Uri,Boolean>(
-        //Vi använder det färdiga kontraktet för att ta bilder
-        ActivityResultContracts.TakePicture()) {
-        if(it) {
-            //Bilden sparad till den plats vi angav i intentetIntent. Bilden kommer bytas ut
-            //Då aktiviteten blir synlig
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val takeBtn = view.findViewById<Button>(R.id.takePicture)
+        takeBtn.setOnClickListener {
+            takePicture()
         }
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    /*private fun takePicture() {
-
+    private fun takePicture() {
+        /* Bestäm vart filen ska sparas
+         * Observera att Kamera-appen måste kunna skriva till platsen
+         * där filen finns därav används en FileProvider
+         */
         val uri: Uri
 
         //Spara filen i vår local
@@ -69,14 +89,14 @@ class AddExpenseFragment : Fragment() {
         // om vi sparar filen på ett ställe vi har koll på kontroll över att ingen
         // annan app sabbar något
 
-        val file = File(activity?.filesDir, "mypic.jpg")
-        // TODO: Flytta all logik till activity?
-        //uri = FileProvider.getUriForFile(activity?.applicationContext, "$activity.packageName.fileprovider", file!!)
+        activity?.let {
+            val file = File(it.filesDir, "mypic.jpg")
+            uri = FileProvider.getUriForFile(it.applicationContext, "${it.packageName}.fileprovider", file!!)
 
-        //Starta aktiviteten
-
-        launcher.launch(uri)
-    }*/
+            //Starta aktiviteten
+            launcher.launch(uri)
+        }
+    }
 
     companion object {
         /**
