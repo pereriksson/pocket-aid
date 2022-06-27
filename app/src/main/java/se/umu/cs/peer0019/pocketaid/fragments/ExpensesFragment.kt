@@ -11,6 +11,7 @@ import androidx.room.Room
 import se.umu.cs.peer0019.pocketaid.ExpensesListAdapter
 import se.umu.cs.peer0019.pocketaid.R
 import se.umu.cs.peer0019.pocketaid.db.AppDatabase
+import se.umu.cs.peer0019.pocketaid.models.AggregatedExpense
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,7 +57,27 @@ class ExpensesFragment : Fragment() {
                 .allowMainThreadQueries()
                 .build()
             val ed = db.expenseDao()
-            val expenses = ed.getExpenses()
+            val dbExpenses = ed.getExpenses()
+            val categories = ed.getCategories()
+
+            // Prepare aggregated expenses also including category name
+            val expenses = mutableListOf<AggregatedExpense>()
+            dbExpenses.forEach { expense ->
+                categories.forEach { category ->
+                    if (expense.categoryId == category.id) {
+                        expenses.add(AggregatedExpense(
+                            expense.id,
+                            expense.place,
+                            expense.description,
+                            expense.categoryId,
+                            category.name,
+                            expense.date,
+                            expense.amount
+                        ))
+                    }
+                }
+            }
+
             val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
             a.layoutManager = LinearLayoutManager(activity)
             a.adapter = ExpensesListAdapter(expenses)

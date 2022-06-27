@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import se.umu.cs.peer0019.pocketaid.models.AggregatedExpense
 import se.umu.cs.peer0019.pocketaid.models.Expense
 import java.text.DecimalFormat
 import java.util.*
@@ -15,7 +16,7 @@ import kotlin.math.exp
 /**
  * The Adapter creates ViewHolder objects as needed
  */
-class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>() {
+class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.Adapter<ExpensesListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -29,8 +30,7 @@ class ExpensesListAdapter(val expenses: List<Expense>) : RecyclerView.Adapter<Ex
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.placeItemView.text = expenses[i].place
         viewHolder.dateItemView.text = expenses[i].date
-        // todo
-        viewHolder.categoryNameItemView.text = expenses[i].categoryId.toString()
+        viewHolder.categoryNameItemView.text = expenses[i].categoryName
         viewHolder.amountItemView.text = "${expenses[i].amount} kr"
         viewHolder.descriptionItemView.text = expenses[i].description
     }
