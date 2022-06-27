@@ -77,7 +77,7 @@
         android:inputType="number"
         app:layout_constraintTop_toBottomOf="@id/espenseAmountLabel"/>
     <Button
-        android:id="@+id/createExpenseButton"
+        android:id="@+id/addExpenseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/expenseAmount"
