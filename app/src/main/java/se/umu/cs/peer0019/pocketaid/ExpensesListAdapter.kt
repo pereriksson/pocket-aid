@@ -1,6 +1,5 @@
 package se.umu.cs.peer0019.pocketaid
 
-import android.icu.number.NumberFormatter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import se.umu.cs.peer0019.pocketaid.models.AggregatedExpense
 import se.umu.cs.peer0019.pocketaid.models.Expense
-import java.text.DecimalFormat
-import java.util.*
-import kotlin.math.exp
+import java.text.NumberFormat
 
 /**
  * The Adapter creates ViewHolder objects as needed
@@ -31,12 +28,15 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
         viewHolder.placeItemView.text = expenses[i].place
         viewHolder.dateItemView.text = expenses[i].date
         viewHolder.categoryNameItemView.text = expenses[i].categoryName
-        viewHolder.amountItemView.text = "${expenses[i].amount} kr"
+        val amount = NumberFormat
+            .getInstance()
+            .format(expenses[i].amount)
+            .toString()
+        viewHolder.amountItemView.text = "$amount kr"
         viewHolder.descriptionItemView.text = expenses[i].description
     }
 
     override fun getItemCount(): Int {
-        println("expenses.size "+expenses.size.toString())
         return expenses.size
     }
 
@@ -52,7 +52,7 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
         var amountItemView: TextView
         var descriptionItemView: TextView
 
-        var data: Expense? = null
+        var data: AggregatedExpense? = null
 
         init {
             placeItemView = itemView.findViewById(R.id.expenses_list_item_place)
@@ -62,13 +62,12 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
             descriptionItemView = itemView.findViewById(R.id.expenses_list_item_description)
         }
 
-        fun bind(item: Expense?) {
+        fun bind(item: AggregatedExpense?) {
             // assign it to `data` so it can be used with `setOnClickListener`
             data = item
             placeItemView.text = item?.place
             dateItemView.text = item?.date
-            // todo
-            categoryNameItemView.text = item?.categoryId.toString()
+            categoryNameItemView.text = item?.categoryName
             amountItemView.text = item?.amount.toString()
             descriptionItemView.text = item?.description
         }
@@ -83,13 +82,13 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
     }
 
     companion object {
-        private val EXPENSES_COMPARATOR = object : DiffUtil.ItemCallback<Expense>() {
-            override fun areItemsTheSame(oldItem: Expense, newItem: Expense): Boolean {
+        private val EXPENSES_COMPARATOR = object : DiffUtil.ItemCallback<AggregatedExpense>() {
+            override fun areItemsTheSame(oldItem: AggregatedExpense, newItem: AggregatedExpense): Boolean {
                 return oldItem === newItem
             }
 
             // todo: ?
-            override fun areContentsTheSame(oldItem: Expense, newItem: Expense): Boolean {
+            override fun areContentsTheSame(oldItem: AggregatedExpense, newItem: AggregatedExpense): Boolean {
                 return oldItem.id == newItem.id
             }
         }

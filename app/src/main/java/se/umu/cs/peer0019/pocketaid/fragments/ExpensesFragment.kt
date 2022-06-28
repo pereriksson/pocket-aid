@@ -1,5 +1,6 @@
 package se.umu.cs.peer0019.pocketaid.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ExpensesFragment : Fragment() {
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -47,41 +49,39 @@ class ExpensesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Ensure context
-        this.context?.let {
-            // Fetch data
-            val db = Room.databaseBuilder(
-                it,
-                AppDatabase::class.java, "expenses"
-            )
-                .allowMainThreadQueries()
-                .build()
-            val ed = db.expenseDao()
-            val dbExpenses = ed.getExpenses()
-            val categories = ed.getCategories()
+        // Fetch data
+        val db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "expenses"
+        )
+            .allowMainThreadQueries()
+            .build()
+        val ed = db.expenseDao()
+        val dbExpenses = ed.getExpensesByDateDesc()
+        val categories = ed.getCategories()
 
-            // Prepare aggregated expenses also including category name
-            val expenses = mutableListOf<AggregatedExpense>()
-            dbExpenses.forEach { expense ->
-                categories.forEach { category ->
-                    if (expense.categoryId == category.id) {
-                        expenses.add(AggregatedExpense(
-                            expense.id,
-                            expense.place,
-                            expense.description,
-                            expense.categoryId,
-                            category.name,
-                            expense.date,
-                            expense.amount
-                        ))
-                    }
-                }
+        // Prepare aggregated expenses also including category name
+        val expenses = mutableListOf<AggregatedExpense>()
+
+        dbExpenses.forEach { expense ->
+            val category = categories.find {
+                it.id == expense.categoryId
             }
-
-            val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
-            a.layoutManager = LinearLayoutManager(activity)
-            a.adapter = ExpensesListAdapter(expenses)
+            val categoryName = if (category != null) category.name else ""
+            expenses.add(AggregatedExpense(
+                expense.id,
+                expense.place,
+                expense.description,
+                expense.categoryId,
+                categoryName,
+                expense.date,
+                expense.amount
+            ))
         }
+
+        val a = view.findViewById<RecyclerView>(R.id.expenses_recyclerview)
+        a.layoutManager = LinearLayoutManager(activity)
+        a.adapter = ExpensesListAdapter(expenses)
     }
 
     companion object {

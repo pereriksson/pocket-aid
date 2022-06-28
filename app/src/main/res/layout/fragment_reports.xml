@@ -18,7 +18,7 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:paddingTop="15dp"
-            android:text="Utgifter mars 2022"/>
+            android:text="Expenses"/>
 
         <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
             android:id="@+id/aa_chart_view"

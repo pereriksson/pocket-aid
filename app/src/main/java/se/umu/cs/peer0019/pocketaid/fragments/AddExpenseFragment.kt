@@ -1,6 +1,5 @@
 package se.umu.cs.peer0019.pocketaid.fragments
 
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -13,8 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.navigation.fragment.findNavController
 import androidx.room.Room
-import se.umu.cs.peer0019.pocketaid.MainActivity
 import se.umu.cs.peer0019.pocketaid.R
 import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 import java.io.File
@@ -30,23 +29,23 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AddExpenseFragment : Fragment() {
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private var expenseImageFilename = "newExpense.jpg"
+    private var expenseImageTempFilename = "newExpense.jpg"
 
-    //Vi använder det färdiga kontraktet för att ta bilder
     val launcher=registerForActivityResult<Uri,Boolean>(ActivityResultContracts.TakePicture()) {
         if(it) {
             //Bilden sparad till den plats vi angav i intentetIntent. Bilden kommer bytas ut
             //Då aktiviteten blir synlig
+            // todo: ugly...
             view?.let { view ->
                 val expenseImage = view.findViewById(R.id.expenseImage) as ImageView
                 activity?.let { activity ->
-                    val file = File(activity.filesDir, expenseImageFilename)
-                    // todo: expenseImage.setImageBitmap()
-                    // todo: exif orientation adjustment
+                    val file = File(activity.filesDir, expenseImageTempFilename)
+                    // TODO: EXIF orientation adjustment
                     val bitmap = BitmapFactory.decodeFile(file.absolutePath)
                     expenseImage.setImageBitmap(bitmap)
                 }
@@ -77,24 +76,46 @@ class AddExpenseFragment : Fragment() {
             takePicture()
         }
         val addExpenseBtn = view.findViewById<Button>(R.id.addExpenseBtn)
+
         addExpenseBtn.setOnClickListener {
-            context?.let { context ->
-                // TODO: Copy image to permanent store
-                val db = Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java, "expenses"
-                )
-                    .allowMainThreadQueries()
-                    .build()
-                val ed = db.expenseDao()
-                val expenses = ed.insertExpense(
-                    view.findViewById<TextView>(R.id.expensePlace).text.toString(),
-                    view.findViewById<TextView>(R.id.expenseDescription).text.toString(),
-                    1, // TODO: Hard coded
-                    view.findViewById<TextView>(R.id.expenseDate).text.toString(),
-                    Integer.parseInt(view.findViewById<TextView>(R.id.expenseAmount).text.toString())
-                )
+            // TODO: Copy image to permanent store
+            val db = Room.databaseBuilder(
+                requireContext(),
+                AppDatabase::class.java, "expenses"
+            )
+                .allowMainThreadQueries()
+                .build()
+            val ed = db.expenseDao()
+
+            // TODO: Maybe require an amount in the UI instead?
+            var amount = 0
+            val userAmount = view.findViewById<TextView>(R.id.expenseAmount).text.toString()
+            if (userAmount.isNotEmpty()) {
+                amount = Integer.parseInt(view.findViewById<TextView>(R.id.expenseAmount).text.toString())
             }
+
+            ed.insertExpense(
+                view.findViewById<TextView>(R.id.expensePlace).text.toString(),
+                view.findViewById<TextView>(R.id.expenseDescription).text.toString(),
+                1, // TODO: Hard coded
+                view.findViewById<TextView>(R.id.expenseDate).text.toString(),
+                amount
+            )
+
+            // Delete image file (if any)
+            val file = File(requireContext().filesDir, expenseImageTempFilename)
+            file.exists() && file.delete()
+            val expenseImage = view.findViewById(R.id.expenseImage) as ImageView
+            expenseImage.setImageResource(R.drawable.ic_image)
+
+            // Reset form
+            view.findViewById<TextView>(R.id.expensePlace).text = ""
+            view.findViewById<TextView>(R.id.expenseDescription).text = ""
+            view.findViewById<TextView>(R.id.expenseDate).text = ""
+            view.findViewById<TextView>(R.id.expenseAmount).text = ""
+
+            // Navigate to expenses list
+            findNavController().navigate(R.id.expensesFragment)
         }
 
         super.onViewCreated(view, savedInstanceState)
@@ -114,10 +135,8 @@ class AddExpenseFragment : Fragment() {
         // annan app sabbar något
 
         activity?.let {
-            val file = File(it.filesDir, "newExpense.jpg")
+            val file = File(it.filesDir, expenseImageTempFilename)
             uri = FileProvider.getUriForFile(it.applicationContext, "${it.packageName}.fileprovider", file!!)
-
-            //Starta aktiviteten
             launcher.launch(uri)
         }
     }

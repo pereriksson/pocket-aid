@@ -9,6 +9,8 @@ import se.umu.cs.peer0019.pocketaid.models.Expense
 interface ExpenseDao {
     @Query("SELECT * FROM expenses")
     fun getExpenses(): List<Expense>
+    @Query("SELECT * FROM expenses ORDER BY id DESC")
+    fun getExpensesByDateDesc(): List<Expense>
     @Query("SELECT * FROM categories")
     fun getCategories(): List<Category>
     @Query("INSERT INTO expenses (place, description, categoryId, date, amount) VALUES(:place, :description, :categoryId, :date, :amount)")
