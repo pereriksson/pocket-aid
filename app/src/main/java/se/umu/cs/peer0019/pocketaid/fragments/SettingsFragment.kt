@@ -1,13 +1,16 @@
 package se.umu.cs.peer0019.pocketaid.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
 import androidx.room.Room
 import se.umu.cs.peer0019.pocketaid.R
+import se.umu.cs.peer0019.pocketaid.databinding.FragmentSettingsBinding
 import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,6 +24,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SettingsFragment : Fragment() {
+    private lateinit var dataBinding: FragmentSettingsBinding
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -37,48 +42,52 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Feature to create demo data
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+        return dataBinding.root
+    }
 
-        val createDemoDataBtn = view.findViewById<Button>(R.id.create_demo_data)
-        createDemoDataBtn.setOnClickListener {
-            // todo: Figure out how to do with context in fragments
-            this.context?.let { context ->
-                val db = Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java, "expenses"
-                )
-                    .allowMainThreadQueries() // TODO: DO NOT fetch on main thread
-                    .build()
-                val ed = db.expenseDao()
-                ed.deleteExpenses()
-                ed.deleteCategories()
-                ed.insertCategory("Residence")
-                ed.insertExpense("Skandia", "Interest", 1, "2022-01-02", 4950)
-                ed.insertExpense("Skandia", "Amortization", 1, "2022-01-02", 2775)
-                ed.insertExpense("BRF Lindhagens Backe", "Monthly fee", 1, "2022-01-02", 2973)
+    fun createDemoData(context: Context) {
+        val db = Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "expenses"
+        )
+            .allowMainThreadQueries() // TODO: DO NOT fetch on main thread
+            .build()
+        val ed = db.expenseDao()
 
-                ed.insertCategory("Food")
-                ed.insertExpense("ICA MAXI Stormarknad", "Food", 2, "2022-01-02", 589)
-                ed.insertExpense("Espresso House", "Fika with Erik", 2, "2022-01-02", 159)
-                ed.insertExpense("Espresso House", "Fika with Anna", 2, "2022-01-02", 49)
-                ed.insertExpense("Pressbyrån", "Breakfast", 2, "2022-01-02", 29)
-                ed.insertExpense("Ciao Ciao", "Dinner", 2, "2022-01-02", 439)
+        ed.deleteExpenses()
+        ed.deleteCategories()
 
-                ed.insertCategory("Electronics")
-                ed.insertExpense("Media Markt", "SONOS One Gen2 White", 3, "2022-01-02", 2549)
+        ed.insertCategory("Residence")
+        ed.insertExpense("Skandia", "Interest", 1, "2022-01-02", 4950)
+        ed.insertExpense("Skandia", "Amortization", 1, "2022-01-02", 2775)
+        ed.insertExpense("BRF Lindhagens Backe", "Monthly fee", 1, "2022-01-02", 2973)
 
-                ed.insertCategory("Travel")
-                ed.insertExpense("Norwegian", "Stockholm-Berlin", 4, "2022-01-02", 5691)
-            }
-        }
-        // Inflate the layout for this fragment
-        return view
+        ed.insertCategory("Food")
+        ed.insertExpense("ICA MAXI Stormarknad", "Food", 2, "2022-01-02", 589)
+        ed.insertExpense("Espresso House", "Fika with Erik", 2, "2022-01-02", 159)
+        ed.insertExpense("Espresso House", "Fika with Anna", 2, "2022-01-02", 49)
+        ed.insertExpense("Pressbyrån", "Breakfast", 2, "2022-01-02", 29)
+        ed.insertExpense("Ciao Ciao", "Dinner", 2, "2022-01-02", 439)
+
+        ed.insertCategory("Electronics")
+        ed.insertExpense("Media Markt", "SONOS One Gen2 White", 3, "2022-01-02", 2549)
+
+        ed.insertCategory("Travel")
+        ed.insertExpense("Norwegian", "Stockholm-Berlin", 4, "2022-01-02", 5691)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val createDemoDataBtn = dataBinding.createDemoData
+
+        createDemoDataBtn.setOnClickListener {
+            // todo: Figure out how to do with context in fragments
+            this.context?.let { context ->
+                createDemoData(context)
+            }
+        }
     }
 
     companion object {

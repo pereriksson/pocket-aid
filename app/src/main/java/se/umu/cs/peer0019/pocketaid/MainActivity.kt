@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import se.umu.cs.peer0019.pocketaid.databinding.ActivityMainBinding
 import se.umu.cs.peer0019.pocketaid.viewmodels.ExpensesViewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var  dataBinding: ActivityMainBinding
     lateinit var model: ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

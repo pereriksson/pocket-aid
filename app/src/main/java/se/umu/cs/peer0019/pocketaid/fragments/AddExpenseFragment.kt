@@ -41,16 +41,13 @@ class AddExpenseFragment : Fragment() {
 
     val launcher=registerForActivityResult<Uri,Boolean>(ActivityResultContracts.TakePicture()) {
         if(it) {
-            //Bilden sparad till den plats vi angav i intentetIntent. Bilden kommer bytas ut
-            //Då aktiviteten blir synlig
             // todo: ugly...
-            view?.let { view ->
-                val expenseImage = view.findViewById(R.id.expenseImage) as ImageView
+            view?.let {
                 activity?.let { activity ->
                     val file = File(activity.filesDir, expenseImageTempFilename)
                     // TODO: EXIF orientation adjustment
                     val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                    expenseImage.setImageBitmap(bitmap)
+                    dataBinding.expenseImage.setImageBitmap(bitmap)
                 }
             }
         }
@@ -58,7 +55,6 @@ class AddExpenseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_add_expense)
 
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -69,19 +65,18 @@ class AddExpenseFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         // Inflate the layout for this fragment
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_expense, container,false)
         return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val takeBtn = view.findViewById<Button>(R.id.takePicture)
+        val takeBtn = dataBinding.takePicture
         takeBtn.setOnClickListener {
             takePicture()
         }
-        val addExpenseBtn = view.findViewById<Button>(R.id.addExpenseBtn)
+        val addExpenseBtn = dataBinding.addExpenseBtn
 
         addExpenseBtn.setOnClickListener {
             // TODO: Copy image to permanent store
@@ -95,30 +90,30 @@ class AddExpenseFragment : Fragment() {
 
             // TODO: Maybe require an amount in the UI instead?
             var amount = 0
-            val userAmount = view.findViewById<TextView>(R.id.expenseAmount).text.toString()
+            val userAmount = dataBinding.expenseAmount.text
             if (userAmount.isNotEmpty()) {
                 amount = Integer.parseInt(view.findViewById<TextView>(R.id.expenseAmount).text.toString())
             }
 
             ed.insertExpense(
-                view.findViewById<TextView>(R.id.expensePlace).text.toString(),
-                view.findViewById<TextView>(R.id.expenseDescription).text.toString(),
+                dataBinding.expensePlace.text.toString(),
+                dataBinding.expenseDescription.text.toString(),
                 1, // TODO: Hard coded
-                view.findViewById<TextView>(R.id.expenseDate).text.toString(),
+                dataBinding.expenseDate.text.toString(),
                 amount
             )
 
             // Delete image file (if any)
             val file = File(requireContext().filesDir, expenseImageTempFilename)
             file.exists() && file.delete()
-            val expenseImage = view.findViewById(R.id.expenseImage) as ImageView
+            val expenseImage = dataBinding.expenseImage
             expenseImage.setImageResource(R.drawable.ic_image)
 
             // Reset form
-            view.findViewById<TextView>(R.id.expensePlace).text = ""
-            view.findViewById<TextView>(R.id.expenseDescription).text = ""
-            view.findViewById<TextView>(R.id.expenseDate).text = ""
-            view.findViewById<TextView>(R.id.expenseAmount).text = ""
+            dataBinding.expensePlace.setText("")
+            dataBinding.expenseDescription.setText("")
+            dataBinding.expenseDate.setText("")
+            dataBinding.expenseAmount.setText("")
 
             // Navigate to expenses list
             findNavController().navigate(R.id.expensesFragment)

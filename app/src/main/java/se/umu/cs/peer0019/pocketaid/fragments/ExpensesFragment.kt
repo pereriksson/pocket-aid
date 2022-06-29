@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import se.umu.cs.peer0019.pocketaid.ExpensesListAdapter
 import se.umu.cs.peer0019.pocketaid.R
+import se.umu.cs.peer0019.pocketaid.databinding.FragmentExpensesBinding
 import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 import se.umu.cs.peer0019.pocketaid.models.AggregatedExpense
 
@@ -26,6 +28,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ExpensesFragment : Fragment() {
+
+    private lateinit var dataBinding: FragmentExpensesBinding
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -43,7 +47,8 @@ class ExpensesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_expenses, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expenses, container, false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
