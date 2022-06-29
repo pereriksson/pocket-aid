@@ -58,22 +58,22 @@ class SettingsFragment : Fragment() {
         ed.deleteExpenses()
         ed.deleteCategories()
 
-        ed.insertCategory("Residence")
+        ed.insertCategory("Residence", "#00FDFF")
         ed.insertExpense("Skandia", "Interest", 1, "2022-01-02", 4950)
         ed.insertExpense("Skandia", "Amortization", 1, "2022-01-02", 2775)
         ed.insertExpense("BRF Lindhagens Backe", "Monthly fee", 1, "2022-01-02", 2973)
 
-        ed.insertCategory("Food")
+        ed.insertCategory("Food", "#05129C")
         ed.insertExpense("ICA MAXI Stormarknad", "Food", 2, "2022-01-02", 589)
         ed.insertExpense("Espresso House", "Fika with Erik", 2, "2022-01-02", 159)
         ed.insertExpense("Espresso House", "Fika with Anna", 2, "2022-01-02", 49)
         ed.insertExpense("Pressbyrån", "Breakfast", 2, "2022-01-02", 29)
         ed.insertExpense("Ciao Ciao", "Dinner", 2, "2022-01-02", 439)
 
-        ed.insertCategory("Electronics")
+        ed.insertCategory("Electronics", "#17E883")
         ed.insertExpense("Media Markt", "SONOS One Gen2 White", 3, "2022-01-02", 2549)
 
-        ed.insertCategory("Travel")
+        ed.insertCategory("Travel", "#2C95F1")
         ed.insertExpense("Norwegian", "Stockholm-Berlin", 4, "2022-01-02", 5691)
     }
 

@@ -47,7 +47,6 @@ class ReportsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // TODO: DO NOT fetch on main thread!
         val db = Room.databaseBuilder(
             requireContext(),
@@ -67,26 +66,19 @@ class ReportsFragment : Fragment() {
             statistics[index] = arrayOf(category.name, total)
         }
 
-        val plotOptions = AAPlotOptions()
-            .series(
-                AASeries()
-                    .borderColor("transparent")
-            )
-        // Gör till en view?
+        var colors = Array<Any>(categories.size){}
+
+        categories.forEachIndexed { index, category ->
+            colors[index] = category.color
+        }
+
+        // TODO: Göra till en view?
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Pie)
             .backgroundColor("transparent")
             .dataLabelsEnabled(true)
             .colorsTheme(
-                arrayOf(
-                    // TODO: Create strings for these
-                    // TODO: Make sure we have enough colors as categories are defined by the user
-                    "#7EFEBF",
-                    "#0ACAF3",
-                    "#FF107C",
-                    "#FFBF68",
-                    "#ED71FE"
-                )
+                colors
             )
             .series(arrayOf(
                 AASeriesElement()
@@ -95,7 +87,9 @@ class ReportsFragment : Fragment() {
                         AADataLabels()
                             .enabled(false)
                     )
+                    .innerSize("60%")
                     .name("Utgifter")
+                    .borderColor("transparent")
             ))
 
         val aaChartOptions = aaChartModel
@@ -110,7 +104,7 @@ class ReportsFragment : Fragment() {
                     )
                     .itemMarginTop(16.toFloat())
             )
-        //.plotOptions(plotOptions)   //legenden försvinner
+
         val aaChartView = view.findViewById<AAChartView>(R.id.aa_chart_view)
         aaChartView.aa_drawChartWithChartOptions(aaChartOptions)
     }

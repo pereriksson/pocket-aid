@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
         // https://www.youtube.com/watch?v=fEmS9vEUqTE
         // TODO: Lägg lite tid på att hitta ett snyggt färgschema
         // TODO: Knapp på första sidan "Lägg in utgift"
-        // TODO: Inställningar (lägga till kategorier, beloppspärr etc)
         // TODO: Gör en YouTube-video
         // TODO: Det ska gå att göra pie charten till en cirkel!
         // TODO: Gör en egen snygg klass av detta

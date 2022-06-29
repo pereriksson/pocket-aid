@@ -9,5 +9,7 @@ data class Category(
     @PrimaryKey
     var id: Int,
     @ColumnInfo(name = "name")
-    var name: String
+    var name: String,
+    @ColumnInfo(name = "color")
+    var color: String
 )

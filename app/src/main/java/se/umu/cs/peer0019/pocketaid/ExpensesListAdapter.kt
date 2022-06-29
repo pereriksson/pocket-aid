@@ -3,12 +3,14 @@ package se.umu.cs.peer0019.pocketaid
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import se.umu.cs.peer0019.pocketaid.models.AggregatedExpense
 import se.umu.cs.peer0019.pocketaid.models.Expense
 import java.text.NumberFormat
+import kotlin.math.exp
 
 /**
  * The Adapter creates ViewHolder objects as needed
@@ -34,6 +36,7 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
             .toString()
         viewHolder.amountItemView.text = "$amount kr"
         viewHolder.descriptionItemView.text = expenses[i].description
+        viewHolder.symbolItemView.text = expenses[i].categoryName.substring(0, 1)
     }
 
     override fun getItemCount(): Int {
@@ -51,6 +54,7 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
         var categoryNameItemView: TextView
         var amountItemView: TextView
         var descriptionItemView: TextView
+        var symbolItemView: Button
 
         var data: AggregatedExpense? = null
 
@@ -60,16 +64,7 @@ class ExpensesListAdapter(val expenses: List<AggregatedExpense>) : RecyclerView.
             categoryNameItemView = itemView.findViewById(R.id.expenses_list_item_category_name)
             amountItemView = itemView.findViewById(R.id.expenses_list_item_amount)
             descriptionItemView = itemView.findViewById(R.id.expenses_list_item_description)
-        }
-
-        fun bind(item: AggregatedExpense?) {
-            // assign it to `data` so it can be used with `setOnClickListener`
-            data = item
-            placeItemView.text = item?.place
-            dateItemView.text = item?.date
-            categoryNameItemView.text = item?.categoryName
-            amountItemView.text = item?.amount.toString()
-            descriptionItemView.text = item?.description
+            symbolItemView = itemView.findViewById(R.id.expenses_list_item_symbol)
         }
 
         companion object {
