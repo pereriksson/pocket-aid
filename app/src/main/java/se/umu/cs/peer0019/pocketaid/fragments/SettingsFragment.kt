@@ -84,9 +84,7 @@ class SettingsFragment : Fragment() {
 
         createDemoDataBtn.setOnClickListener {
             // todo: Figure out how to do with context in fragments
-            this.context?.let { context ->
-                createDemoData(context)
-            }
+            createDemoData(requireContext())
         }
     }
 

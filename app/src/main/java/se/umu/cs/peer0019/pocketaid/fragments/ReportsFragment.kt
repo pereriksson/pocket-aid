@@ -49,87 +49,70 @@ class ReportsFragment : Fragment() {
 
 
         // TODO: DO NOT fetch on main thread!
-        this.context?.let { context ->
-            val db = Room.databaseBuilder(
-                context,
-                AppDatabase::class.java, "expenses"
-            ).allowMainThreadQueries().build()
+        val db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "expenses"
+        ).allowMainThreadQueries().build()
 
-            val ed = db.expenseDao()
-            val categories = ed.getCategories()
+        val ed = db.expenseDao()
+        val categories = ed.getCategories()
 
-            var statistics = Array<Any>(categories.size){}
+        var statistics = Array<Any>(categories.size){}
 
-            categories.forEachIndexed { index, category ->
-                val expenses = ed.getExpenses().filter {
-                    it.categoryId == category.id
-                }
-                val total = expenses.fold(0) { sum, expense -> sum + expense.amount }
-                statistics[index] = arrayOf(category.name, total)
+        categories.forEachIndexed { index, category ->
+            val expenses = ed.getExpenses().filter {
+                it.categoryId == category.id
             }
-
-            val plotOptions = AAPlotOptions()
-                .series(
-                    AASeries()
-                        .borderColor("transparent")
-                )
-            // Gör till en view?
-            val aaChartModel : AAChartModel = AAChartModel()
-                .chartType(AAChartType.Pie)
-                .backgroundColor("transparent")
-                .dataLabelsEnabled(true)
-                .colorsTheme(
-                    arrayOf(
-                        // TODO: Create strings for these
-                        // TODO: Make sure we have enough colors as categories are defined by the user
-                        "#7EFEBF",
-                        "#0ACAF3",
-                        "#FF107C",
-                        "#FFBF68",
-                        "#ED71FE"
-                    )
-                )
-                .series(arrayOf(
-                    AASeriesElement()
-                        .data(statistics)
-                        .dataLabels(
-                            AADataLabels()
-                                .enabled(false)
-                        )
-                        .name("Utgifter")
-                ))
-
-            val aaChartOptions = aaChartModel
-                .aa_toAAOptions()
-                .legend(
-                    AALegend()
-                        .itemStyle(
-                            AAItemStyle()
-                                .color("#ffffff")
-                                .fontSize(18.toFloat())
-                                .fontWeight("400")
-                        )
-                        .itemMarginTop(16.toFloat())
-                )
-            //.plotOptions(plotOptions)   //legenden försvinner
-            val aaChartView = view.findViewById<AAChartView>(R.id.aa_chart_view)
-            aaChartView.aa_drawChartWithChartOptions(aaChartOptions)
+            val total = expenses.fold(0) { sum, expense -> sum + expense.amount }
+            statistics[index] = arrayOf(category.name, total)
         }
 
+        val plotOptions = AAPlotOptions()
+            .series(
+                AASeries()
+                    .borderColor("transparent")
+            )
+        // Gör till en view?
+        val aaChartModel : AAChartModel = AAChartModel()
+            .chartType(AAChartType.Pie)
+            .backgroundColor("transparent")
+            .dataLabelsEnabled(true)
+            .colorsTheme(
+                arrayOf(
+                    // TODO: Create strings for these
+                    // TODO: Make sure we have enough colors as categories are defined by the user
+                    "#7EFEBF",
+                    "#0ACAF3",
+                    "#FF107C",
+                    "#FFBF68",
+                    "#ED71FE"
+                )
+            )
+            .series(arrayOf(
+                AASeriesElement()
+                    .data(statistics)
+                    .dataLabels(
+                        AADataLabels()
+                            .enabled(false)
+                    )
+                    .name("Utgifter")
+            ))
 
-        // Todo: view.context är alltid ett objekt i denna metod, använda denna istf onCreateView?
-        // TODO: Lägg lite tid på att hitta ett snyggt färgschema
-        // TODO: Knapp på första sidan "Lägg in utgift"
-        // TODO: Inställningar (lägga till kategorier, beloppspärr etc)
-        // TODO: Gör en YouTube-video
-        // TODO: Det ska gå att göra pie charten till en cirkel!
-        // TODO: Gör en egen snygg klass av detta
-        // TODO: activities:
-        // TODO: HomeActivity
-        // TODO: AddExpenseActivity
-        // TODO: SettingsActivity
-        // TODO: ReportActivity
-
+        val aaChartOptions = aaChartModel
+            .aa_toAAOptions()
+            .legend(
+                AALegend()
+                    .itemStyle(
+                        AAItemStyle()
+                            .color("#ffffff")
+                            .fontSize(18.toFloat())
+                            .fontWeight("400")
+                    )
+                    .itemMarginTop(16.toFloat())
+            )
+        //.plotOptions(plotOptions)   //legenden försvinner
+        val aaChartView = view.findViewById<AAChartView>(R.id.aa_chart_view)
+        aaChartView.aa_drawChartWithChartOptions(aaChartOptions)
     }
 
     companion object {
