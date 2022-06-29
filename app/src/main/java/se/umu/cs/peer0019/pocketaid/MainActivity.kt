@@ -2,13 +2,18 @@ package se.umu.cs.peer0019.pocketaid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import se.umu.cs.peer0019.pocketaid.databinding.ActivityMainBinding
 import se.umu.cs.peer0019.pocketaid.viewmodels.ExpensesViewModel
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var  dataBinding: ActivityMainBinding
+    lateinit var model: ViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,8 +24,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         navView.setupWithNavController(navController)
 
-        val expensesViewModel = ViewModelProvider(this).get(ExpensesViewModel::class.java)
-
+        // tood: observable + room + modelview
         // todo: snyggare lite mörkare tema i appen
         // todo: Testa bakåt-knappen ordentligt
         // todo: Testa recover state ordentligt (se inlupp 1)

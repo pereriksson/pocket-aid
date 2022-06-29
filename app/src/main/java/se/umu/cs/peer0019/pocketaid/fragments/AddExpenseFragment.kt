@@ -12,11 +12,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import se.umu.cs.peer0019.pocketaid.R
 import se.umu.cs.peer0019.pocketaid.db.AppDatabase
 import java.io.File
+import se.umu.cs.peer0019.pocketaid.databinding.FragmentAddExpenseBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,12 +31,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AddExpenseFragment : Fragment() {
-
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private var expenseImageTempFilename = "newExpense.jpg"
+
+    private lateinit var dataBinding: FragmentAddExpenseBinding
 
     val launcher=registerForActivityResult<Uri,Boolean>(ActivityResultContracts.TakePicture()) {
         if(it) {
@@ -55,6 +58,8 @@ class AddExpenseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dataBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_add_expense)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -67,7 +72,8 @@ class AddExpenseFragment : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_expense, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_expense, container,false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
